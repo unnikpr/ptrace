@@ -1,0 +1,18 @@
+#Configure ruter interface
+interface fastEthernet 0/0
+  ip address 192.168.1.1 255.255.255.0
+exit
+interface fastEthernet 0/0
+  ip address 192.168.2.1 255.255.255.0
+exit
+#configure DHCP POOL
+ip dhcp pool server
+network 192.168.1.0 255.255.255.0
+default-router 192.168.1.1
+exit
+ip dhcp pool client
+network 192.168.2.0 255.255.255.0
+default-router 192.168.2.1
+exit
+
+  

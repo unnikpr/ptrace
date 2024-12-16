@@ -17,5 +17,3 @@ ip dhcp pool client
 network 192.168.2.0 255.255.255.0
 default-router 192.168.2.1
 exit
-
-  

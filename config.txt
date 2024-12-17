@@ -1,19 +1,135 @@
-# Escape command
-no ip domain-lookup
+interface FastEthernet0/0
+ ip address 192.168.2.1 255.255.255.0
+ duplex auto
+ speed auto
+!
+interface FastEthernet0/1
+ ip address 192.168.1.1 255.255.255.0
+ ip access-group ext-http in
+ duplex auto
+ speed auto
+!
+interface Vlan1
+ no ip address
+ shutdown
+!
+ip classless
+!
+ip flow-export version 9
+!
+!
+ip access-list standard client
+ permit host 192.168.1.2
+ip access-list standard abc
+ permit host 192.168.1.2
+ip access-list extended ext-http
+ permit tcp host 192.168.2.1 host 192.168.2.2 eq www
+!
+!
+!
+!
+!
+!
+line con 0
+!
+line aux 0
+!
+line vty 0 4
+ login
+!
+!
+!
+end
 
-#Configure ruter interface
-interface fastEthernet 0/1
-  ip address 192.168.1.1 255.255.255.0
-exit
-interface fastEthernet 0/0
-  ip address 192.168.2.1 255.255.255.0
-exit
-#configure DHCP POOL
+
+Router(config-ext-nacl)# no permit tcp host 192.168.2.1 host 192.168.2.2 eq www
+Router(config-ext-nacl)# permit tcp host 192.168.1.2 host 192.168.2.2 eq www
+Router(config-ext-nacl)#do sh run
+Building configuration...
+
+Current configuration : 989 bytes
+!
+version 12.4
+no service timestamps log datetime msec
+no service timestamps debug datetime msec
+no service password-encryption
+!
+hostname Router
+!
+!
+!
+!
+!
 ip dhcp pool server
-network 192.168.1.0 255.255.255.0
-default-router 192.168.1.1
-exit
+ network 192.168.1.0 255.255.255.0
+ default-router 192.168.1.1
 ip dhcp pool client
-network 192.168.2.0 255.255.255.0
-default-router 192.168.2.1
-exit
+ network 192.168.2.0 255.255.255.0
+ default-router 192.168.2.1
+!
+!
+!
+ip cef
+no ipv6 cef
+!
+!
+!
+!
+!
+!
+!
+!
+!
+!
+no ip domain-lookup
+!
+!
+spanning-tree mode pvst
+!
+!
+!
+!
+!
+!
+interface FastEthernet0/0
+ ip address 192.168.2.1 255.255.255.0
+ duplex auto
+ speed auto
+!
+interface FastEthernet0/1
+ ip address 192.168.1.1 255.255.255.0
+ ip access-group ext-http in
+ duplex auto
+ speed auto
+!
+interface Vlan1
+ no ip address
+ shutdown
+!
+ip classless
+!
+ip flow-export version 9
+!
+!
+ip access-list standard client
+ permit host 192.168.1.2
+ip access-list standard abc
+ permit host 192.168.1.2
+ip access-list extended ext-http
+ permit tcp host 192.168.1.2 host 192.168.2.2 eq www
+!
+!
+!
+!
+!
+!
+line con 0
+!
+line aux 0
+!
+line vty 0 4
+ login
+!
+!
+!
+end
